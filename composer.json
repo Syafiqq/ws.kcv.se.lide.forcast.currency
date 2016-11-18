@@ -1,0 +1,10 @@
+{
+    "require": {
+        "corneltek/pux": "~1.5",
+        "monolog/monolog": "^1.21",
+        "php-console/php-console": "^3.1",
+        "nesbot/carbon": "~1.21",
+        "joshcam/mysqli-database-class": "^2.6",
+        "mcordingley/LinearAlgebra": "^1.3"
+    }
+}
