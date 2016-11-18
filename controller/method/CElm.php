@@ -106,7 +106,10 @@ class CElm extends Pux\Controller
         $normalization = array('min' => 0, 'max' => 1);
 
         $elmMod = DElmdebug::getInstance();
-        $elmMod->registerData($feature, $training, $testing);
-        $elmMod->process($wjk, $bias, $normalization);
+
+        $elmMod->processLearning($feature, $training, $wjk, $bias, $normalization);
+        $elmMod->processTesting($testing);
+        var_dump($elmMod->getMape());
+
     }
 }
