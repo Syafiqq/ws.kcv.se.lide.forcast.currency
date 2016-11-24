@@ -8,9 +8,9 @@
  */
 
 namespace controller\method;
-use model\logger\Logger;
 use model\Currency as DBCurrency;
 use model\Exchange as DBExchange;
+use model\logger\Logger;
 use model\method\DElm_tmp;
 use model\method\DElmdebug;
 use model\method\MElm;
@@ -154,5 +154,10 @@ class CElm extends Pux\Controller
         $elm->testForAccuracy($testing[0]);
         print_r($testing[0]);
         //print_r($elm->getData());
+    }
+
+    public function mftest($base = 'usd', $to = 'idr', $feature = 4, $total = 355)
+    {
+
     }
 }
