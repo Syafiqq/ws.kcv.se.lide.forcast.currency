@@ -328,7 +328,7 @@ class DElmdebug extends DBModel
                 }
             }
             $data[$i]['class']['actual'] = $index;
-            $mape += abs(($predict[$i][0] - $data[$i]['class']['actual'])/$data[$i]['class']['actual']);
+            $mape += abs(($predict[$i][0] - $data[$i]['class']['expected'])/$data[$i]['class']['expected']);
         }
         $this->data['data']['mape'][$type] = $mape / $totalData * 100.0;
     }
