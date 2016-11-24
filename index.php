@@ -60,7 +60,7 @@ $mux->get(
     ]
 );
 $mux->get(
-    '/elm/final/test/:base/:to/:feature/:total/',
+    '/elm/final/test/:base/:to/:feature/:total',
     [
         'controller\method\CElm', 'mftest'
     ],
