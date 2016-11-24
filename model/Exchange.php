@@ -86,9 +86,43 @@ class Exchange extends DBModel
         {
             if($db->count > 0)
             {
-                $data =  $resultSet;
+                $this->sanitize($resultSet);
+                $data = $resultSet;
             }
         }
         return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function sanitize(&$data)
+    {
+        foreach ($data as $key => $value)
+        {
+            $data[$key] = $value['value'];
+        }
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @param $feature
+     * @return array
+     */
+    public function formatData($data, $feature)
+    {
+        $currency = array();
+        for ($i = -1, $is = count($data) - $feature, $js = $feature; ++$i < $is;)
+        {
+            $feature = array();
+            for ($j = -1; ++$j < $js;)
+            {
+                array_push($feature, $data[$i + ($js - $j)]);
+            }
+            array_push($currency, array('data' => $feature, 'class' => array('expected' => $data[$i])));
+        }
+        return $currency;
     }
 }
