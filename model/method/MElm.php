@@ -344,7 +344,6 @@ class MElm extends DBModel
     private function calculateMAPEAccuracy($type)
     {
         $mape = 0.0;
-        $minmax = &$this->metadata['minmax'];
         $data = &$this->data['normalization'][$type];
         $predict = &$this->metadata['y_predict'][$type];
         $totalData = $this->metadata['total'][$type];
