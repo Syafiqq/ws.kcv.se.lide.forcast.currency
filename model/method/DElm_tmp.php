@@ -14,7 +14,7 @@ use model\DBModel;
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/model/DBModel.php';
 
-class DElm extends DBModel
+class DElm_tmp extends DBModel
 {
     private static $instance;
 
@@ -30,13 +30,13 @@ class DElm extends DBModel
     }
 
     /**
-     * @return DElm
+     * @return DElm_tmp
      */
     public static function getInstance()
     {
         if (self::$instance == null)
         {
-            self::$instance = new DElm();
+            self::$instance = new DElm_tmp();
         }
         return self::$instance;
     }

@@ -53,6 +53,12 @@ $mux->get(
         'controller\method\CElm', 'test'
     ]
 );
+$mux->get(
+    '/elm/final/show',
+    [
+        'controller\method\CElm', 'mfinal'
+    ]
+);
 //$mux->get('/ws/currency/load', ['controller\Currency', 'load']);
 //$mux->post('/ws/currency/add', ['controller\Currency', 'add']);
 
