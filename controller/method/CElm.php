@@ -11,15 +11,15 @@ namespace controller\method;
 use model\logger\Logger;
 use model\Currency as DBCurrency;
 use model\Exchange as DBExchange;
-use model\method\DElm;
+use model\method\DElm_tmp;
 use model\method\DElmdebug;
-use view\method\VElm;
+use model\method\MElm;
 use Pux;
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/model/logger/Logger.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/model/database/DatabaseManager.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/view/method/VElm.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/model/method/DElm.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/model/method/DElm_tmp.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/model/method/MElm.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/model/method/DElmdebug.php';
 
 
@@ -53,7 +53,7 @@ class CElm extends Pux\Controller
             $total = $dataTotal > $total ? $total : $dataTotal;
             if(($total - $feature) > 1)
             {
-                $elmMod = DElm::getInstance();
+                $elmMod = DElm_tmp::getInstance();
                 $data = $dbExc->getData($base, $to, $total, $isFlipped);
                 if($total == count($data))
                 {
@@ -111,5 +111,48 @@ class CElm extends Pux\Controller
         $elmMod->processTesting($testing);
         var_dump($elmMod->getMape());
 
+    }
+
+    public function mfinal()
+    {
+        $elm = MElm::getInstance();
+        $feature = 3;
+        $weight = MElm::generateWeight($feature);
+        $bias = MElm::generateBias($feature);
+        $minMax = MElm::generateNormalizationBound(array(0, 1), 0);
+
+        $training = array(
+            array('data' => array(1, 1, 1), 'class' => array('expected' => 1)),
+            array('data' => array(1, 0, 1), 'class' => array('expected' => 1)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 1)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 1, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 0, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 1, 0), 'class' => array('expected' => 3)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 3)),
+            array('data' => array(0, 0, 0), 'class' => array('expected' => 3))
+        );
+        $testing[0] = array(
+            array('data' => array(1, 0, 1), 'class' => array('expected' => 1)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 1)),
+            array('data' => array(0, 1, 0), 'class' => array('expected' => 3))
+        );
+        $testing[1] = array(
+            array('data' => array(1, 1, 1), 'class' => array('expected' => 1)),
+            array('data' => array(1, 0, 1), 'class' => array('expected' => 1)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 1)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 1, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 0, 0), 'class' => array('expected' => 2)),
+            array('data' => array(0, 1, 0), 'class' => array('expected' => 3)),
+            array('data' => array(1, 1, 0), 'class' => array('expected' => 3)),
+            array('data' => array(0, 0, 0), 'class' => array('expected' => 3))
+        );
+
+        $elm->registerMetadata($feature, $weight, $bias, $minMax, true, 'mape');
+        $elm->learn($training);
+        $elm->testForAccuracy($testing[0]);
+        print_r($testing[0]);
+        //print_r($elm->getData());
     }
 }
