@@ -59,6 +59,28 @@ $mux->get(
         'controller\method\CElm', 'mfinal'
     ]
 );
+$mux->get(
+    '/elm/final/test/:base/:to/:feature/:total/',
+    [
+        'controller\method\CElm', 'mftest'
+    ],
+    [
+        'require' =>
+            [
+                'base' => '([a-z]+)',
+                'to' => '([a-z]+)',
+                'feature' => '\d+',
+                'total' => '\d+',
+            ],
+        'default' =>
+            [
+                'base' => 'usd',
+                'to' => 'idr',
+                'feature' => '4',
+                'total' => '355',
+            ]
+    ]
+);
 //$mux->get('/ws/currency/load', ['controller\Currency', 'load']);
 //$mux->post('/ws/currency/add', ['controller\Currency', 'add']);
 
